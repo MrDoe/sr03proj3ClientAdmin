@@ -101,7 +101,11 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
     </complexType>
    </element>
    <element name="addCategoryResponse">
-    <complexType/>
+    <complexType>
+     <sequence>
+      <element name="addCategoryReturn" type="tns1:Category"/>
+     </sequence>
+    </complexType>
    </element>
    <element name="removeAdvertisement">
     <complexType>

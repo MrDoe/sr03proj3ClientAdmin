@@ -102,7 +102,9 @@ public class DirectorySoapBindingStub extends org.apache.axis.client.Stub implem
         oper.setName("addCategory");
         param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://service.sr03projet3", "c"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://beans.sr03projet3", "Category"), sr03projet3.beans.Category.class, false, false);
         oper.addParameter(param);
-        oper.setReturnType(org.apache.axis.encoding.XMLType.AXIS_VOID);
+        oper.setReturnType(new javax.xml.namespace.QName("http://beans.sr03projet3", "Category"));
+        oper.setReturnClass(sr03projet3.beans.Category.class);
+        oper.setReturnQName(new javax.xml.namespace.QName("http://service.sr03projet3", "addCategoryReturn"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
         _operations[7] = oper;
@@ -481,7 +483,7 @@ public class DirectorySoapBindingStub extends org.apache.axis.client.Stub implem
 }
     }
 
-    public void addCategory(sr03projet3.beans.Category c) throws java.rmi.RemoteException {
+    public sr03projet3.beans.Category addCategory(sr03projet3.beans.Category c) throws java.rmi.RemoteException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
         }
@@ -502,7 +504,14 @@ public class DirectorySoapBindingStub extends org.apache.axis.client.Stub implem
         if (_resp instanceof java.rmi.RemoteException) {
             throw (java.rmi.RemoteException)_resp;
         }
-        extractAttachments(_call);
+        else {
+            extractAttachments(_call);
+            try {
+                return (sr03projet3.beans.Category) _resp;
+            } catch (java.lang.Exception _exception) {
+                return (sr03projet3.beans.Category) org.apache.axis.utils.JavaUtils.convert(_resp, sr03projet3.beans.Category.class);
+            }
+        }
   } catch (org.apache.axis.AxisFault axisFaultException) {
   throw axisFaultException;
 }

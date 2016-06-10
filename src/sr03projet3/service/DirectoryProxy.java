@@ -80,10 +80,10 @@ public class DirectoryProxy implements sr03projet3.service.Directory {
     directory.updateCategory(c);
   }
   
-  public void addCategory(sr03projet3.beans.Category c) throws java.rmi.RemoteException{
+  public sr03projet3.beans.Category addCategory(sr03projet3.beans.Category c) throws java.rmi.RemoteException{
     if (directory == null)
       _initDirectoryProxy();
-    directory.addCategory(c);
+    return directory.addCategory(c);
   }
   
   public void removeAdvertisement(long id) throws java.rmi.RemoteException{
