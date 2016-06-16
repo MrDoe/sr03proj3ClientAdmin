@@ -12,32 +12,36 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ClientAdmin.controllers.CategoryController;
+import ClientAdmin.controllers.AdvertisementController;
 import sr03projet3.beans.*;
 import sr03projet3.service.*;
 /**
- * Servlet implementation class CategoryManagement
+ * Servlet implementation class AdvertisementManagement
  */
-public class CategoryManagement extends ServletBase {
+public class AdvertisementManagement extends ServletBase {
 	private static final long serialVersionUID = 1L;
 	public static final String BASE_PATH = "categories";
 	
 	
 	// View locations declarations
-    private static final String DEFAULT_VIEW = "/WEB-INF/admin/category/showAllCategories.jsp";
-    private static final String EDIT_VIEW = "/WEB-INF/admin/category/editCategory.jsp";
-    private static final String ADD_VIEW = "/WEB-INF/admin/category/addCategory.jsp";
+    private static final String DEFAULT_VIEW = "/WEB-INF/admin/advertisement/showAllAdvertisements.jsp";
+    private static final String EDIT_VIEW = "/WEB-INF/admin/advertisement/editAdvertisement.jsp";
+    private static final String ADD_VIEW = "/WEB-INF/admin/advertisement/addAdvertisement.jsp";
     
     // Custom request attributes declarations :
     public static final String CATEGORY_LIST_ATTRIBUTE = "categories";
     public static final String CATEGORY_ATTRIBUTE = "category";
+    public static final String ADS_LIST_ATTRIBUTE = "advertisements";
+    public static final String AD_ATTRIBUTE = "advertisement";
+    
+    
     
     private Directory directoryService;
-    private CategoryController controller;
+    private AdvertisementController controller;
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CategoryManagement() {
+    public AdvertisementManagement() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -48,7 +52,7 @@ public class CategoryManagement extends ServletBase {
 	public void init() throws ServletException {
 		super.init();
 		directoryService = new DirectoryProxy();
-		controller = new CategoryController(directoryService);
+		controller = new AdvertisementController(directoryService);
 		
 		switch (action) {
 		case DEFAULT_ACTION:
@@ -69,7 +73,6 @@ public class CategoryManagement extends ServletBase {
 	@Override
 	protected void addGETAction(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		request.getRequestDispatcher(this.view).forward(request, response);
 	}
 
@@ -78,10 +81,12 @@ public class CategoryManagement extends ServletBase {
 			HttpServletResponse response) throws ServletException, IOException {
 		DirectoryProxy proxy = new DirectoryProxy();
 		try {
-			ArrayList<Category> list = new ArrayList<>(Arrays.asList(proxy.getCategories()));
-			request.setAttribute(CATEGORY_LIST_ATTRIBUTE, list);
+			ArrayList<Advertisement> list = controller.search(request);
+			ArrayList<Category> catList = new ArrayList<>(Arrays.asList(proxy.getCategories()));
+
+			request.setAttribute(CATEGORY_LIST_ATTRIBUTE, catList);
+			request.setAttribute(ADS_LIST_ATTRIBUTE, list);
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		request.getRequestDispatcher(this.view).forward(request, response);
@@ -91,14 +96,10 @@ public class CategoryManagement extends ServletBase {
 	protected void editGETAction(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		DirectoryProxy proxy = new DirectoryProxy();
-		Long id = Long.parseLong(request.getParameter(CategoryController.ID_FIELD));
+		Long id = Long.parseLong(request.getParameter(AdvertisementController.ID_FIELD));
 		try {
-			Category category = proxy.getCategory(id);
-			System.out.println(category.getAdvertisements());
-//			for (Advertisement ad : iterable) {
-//				
-//			}
-			request.setAttribute(CATEGORY_ATTRIBUTE, category);
+			Advertisement advertisement = proxy.getAdvertisement(id);
+			request.setAttribute(CATEGORY_ATTRIBUTE, advertisement);
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -130,13 +131,13 @@ public class CategoryManagement extends ServletBase {
 	@Override
 	protected void editPOSTAction(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		Category category = controller.edit(request);
+		Advertisement advertisement = controller.edit(request);
 		if(controller.getResult()){
 			response.sendRedirect(request.getContextPath()+"/"+BASE_PATH);
 		}
 		else{
 			request.setAttribute("message", controller.getMessage());
-			request.setAttribute(CATEGORY_ATTRIBUTE, category);
+			request.setAttribute(CATEGORY_ATTRIBUTE, advertisement);
 			request.getRequestDispatcher(this.view).forward(request, response);
 		}
 	}

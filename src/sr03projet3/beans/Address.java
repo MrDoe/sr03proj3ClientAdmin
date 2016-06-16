@@ -8,7 +8,12 @@
 package sr03projet3.beans;
 
 public class Address  implements java.io.Serializable {
-    private java.lang.String city;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3692127573891335616L;
+
+	private java.lang.String city;
 
     private java.lang.String postalCode;
 

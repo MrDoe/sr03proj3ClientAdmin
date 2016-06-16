@@ -8,7 +8,12 @@
 package sr03projet3.beans;
 
 public class Category  implements java.io.Serializable {
-    private sr03projet3.beans.AdvertisementList advertisements;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1920536746849481769L;
+
+	private sr03projet3.beans.AdvertisementList advertisements;
 
     private java.lang.Long id;
 

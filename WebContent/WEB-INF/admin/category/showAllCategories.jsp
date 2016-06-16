@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Gestion des catégories</title>
 <style type="text/css">
 	table {
 		border-width:1px; 
@@ -27,8 +27,10 @@
 	<h1>Gestion des catégories</h1>
 	<table>
 		<thead>
-			<th>Nom</th>
-			<th colspan="2">Actions</th>
+			<tr>
+				<th>Nom</th>
+				<th colspan="2">Actions</th>
+			</tr>
 		</thead>
 		<tbody>
 			<c:forEach items="${categories}" var="category">

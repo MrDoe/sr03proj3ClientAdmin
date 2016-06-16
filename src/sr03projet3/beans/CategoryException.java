@@ -8,7 +8,11 @@
 package sr03projet3.beans;
 
 public class CategoryException  extends org.apache.axis.AxisFault  implements java.io.Serializable {
-    public CategoryException() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8768745160776199643L;
+	public CategoryException() {
     }
 
     private java.lang.Object __equalsCalc = null;
