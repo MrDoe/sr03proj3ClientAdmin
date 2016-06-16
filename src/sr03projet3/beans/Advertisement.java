@@ -8,12 +8,7 @@
 package sr03projet3.beans;
 
 public class Advertisement  implements java.io.Serializable {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -2173763160418992082L;
-
-	private sr03projet3.beans.Address address;
+    private sr03projet3.beans.Address address;
 
     private java.lang.Long id;
 

@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class ServletBase
  */
-public abstract class ServletBase extends HttpServlet {
+public abstract class ServletBaseAdmin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     public static final String ACTION_PARAM = "action";
     public static final String DEFAULT_ACTION = "";
@@ -24,7 +24,7 @@ public abstract class ServletBase extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ServletBase() {
+    public ServletBaseAdmin() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -83,7 +83,7 @@ public abstract class ServletBase extends HttpServlet {
 	protected abstract void defaultGETAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
 	protected abstract void addGETAction(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException;
 	protected abstract void editGETAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
-	protected abstract void deleteGETAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
+	//protected abstract void deleteGETAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
 
 	protected abstract void defaultPOSTAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
 	protected abstract void addPOSTAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;

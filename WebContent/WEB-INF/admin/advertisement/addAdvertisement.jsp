@@ -24,13 +24,24 @@
 
 </head>
 <body>
-	<h1>Gestion des annonces</h1>
-	<h2>Ajout</h2>
+	<h1>Modifier une annonce</h1>
 	<p>${message}</p>
 	<form action="" method="POST">
-		<label for="nameCategory">Nom : </label>
-		<input type="text" name="nameCategory"/>
+		<label for="nameAdvertisement">Nom : </label>
+		<input type="text" name="nameAdvertisement"/>
+		<label for="phoneAdvertisement">Téléphone : </label>
+		<input type="tel" name="phoneAdvertisement"/>
 		<input type="submit" value="Valider" />
+		<fieldset>
+			<legend>Adresse</legend>
+				<label for="streetAdvertisement">Rue</label>
+				<input type="text" name="streetAdvertisement"/>
+				<label for="cityAdvertisement">Rue</label>
+				<input type="text" name="cityAdvertisement"/>
+				<label for="postlCodeAdvertisement">Rue</label>
+				<input type="text" name="postalCodeAdvertisement"/>
+		</fieldset>
+		<input type="submit" value="Valider" />		
 	</form>
 </body>
 </html>

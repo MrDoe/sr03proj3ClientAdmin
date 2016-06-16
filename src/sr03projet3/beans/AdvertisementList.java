@@ -8,11 +8,7 @@
 package sr03projet3.beans;
 
 public class AdvertisementList  extends sr03projet3.beans.CustomList  implements java.io.Serializable {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -2581526292714757564L;
-	public AdvertisementList() {
+    public AdvertisementList() {
     }
 
     private java.lang.Object __equalsCalc = null;

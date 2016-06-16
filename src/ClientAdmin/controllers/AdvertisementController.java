@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import sr03projet3.beans.Address;
 import sr03projet3.beans.Advertisement;
-import sr03projet3.beans.AdvertisementList;
 import sr03projet3.service.Directory;
 
 public class AdvertisementController extends ControllerBase {
@@ -18,7 +17,7 @@ public class AdvertisementController extends ControllerBase {
 	public static final String STREET_FIELD = "streetAdvertisement";
 	public static final String CITY_FIELD = "cityAdvertisement";
 	public static final String POSTALCODE_FIELD = "postalCodeAdvertisement";
-	public static final String CATEGORY_FIELD = "categoryIdAdvertisement";
+	public static final String CATEGORY_FIELD = "idCategory";
 	Directory proxy;
 
 	public AdvertisementController(Directory directory) {
@@ -61,13 +60,25 @@ public class AdvertisementController extends ControllerBase {
 	}
 	
 	public Advertisement edit(HttpServletRequest request) throws RemoteException{
+		// Get the fields from JSP page
 		String name = request.getParameter(NAME_FIELD);
-		Long id; // To get the id after recording the ad 
+		String phone = request.getParameter(PHONE_FIELD);
+		String street = request.getParameter(STREET_FIELD);
+		String city = request.getParameter(CITY_FIELD);
+		String postalCode = request.getParameter(POSTALCODE_FIELD);
+		Long id;  
 		Advertisement advertisement = new Advertisement();
+		Address address = advertisement.getAddress();
 		try {
-			id = Long.parseLong(request.getParameter(ID_FIELD));	
+			id = Long.parseLong(request.getParameter(ID_FIELD));
+//			Long categoryId = Long.parseLong(request.getParameter(CATEGORY_FIELD));			
 			advertisement.setId(id);
 			advertisement.setName(name);
+			advertisement.setPhone(phone);
+			address.setStreet(street);
+			address.setCity(city);
+			address.setPostalCode(postalCode);
+			
 			proxy.updateAdvertisement(advertisement);
 		} catch (NumberFormatException e) {
 			result = false;
@@ -77,10 +88,23 @@ public class AdvertisementController extends ControllerBase {
 
 	public Advertisement add(HttpServletRequest request) throws RemoteException{
 		String name = request.getParameter(NAME_FIELD);
+		String phone = request.getParameter(PHONE_FIELD);
+		Long categoryId;
+		String street = request.getParameter(STREET_FIELD);
+		String city = request.getParameter(CITY_FIELD);
+		String postalCode = request.getParameter(POSTALCODE_FIELD);
 		Advertisement advertisement = new Advertisement();
+//		Address address = new Address();
 		try {
 			advertisement.setName(name);
-			proxy.addAdvertisement(advertisement, 0);
+			categoryId = Long.parseLong(request.getParameter(CATEGORY_FIELD));			
+			advertisement.setName(name);
+			advertisement.setPhone(phone);
+			advertisement.getAddress().setStreet(street);
+			advertisement.getAddress().setCity(city);
+			advertisement.getAddress().setPostalCode(postalCode);
+//			advertisement.setAddress(address);
+			advertisement = proxy.addAdvertisement(advertisement, categoryId);
 		} catch (NumberFormatException e) {
 			result = false;
 		}

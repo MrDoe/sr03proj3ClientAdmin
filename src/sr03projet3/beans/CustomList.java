@@ -8,11 +8,7 @@
 package sr03projet3.beans;
 
 public abstract class CustomList  implements java.io.Serializable {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 7990611637924042797L;
-	public CustomList() {
+    public CustomList() {
     }
 
     private java.lang.Object __equalsCalc = null;

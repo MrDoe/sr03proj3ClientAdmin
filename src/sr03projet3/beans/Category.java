@@ -8,12 +8,9 @@
 package sr03projet3.beans;
 
 public class Category  implements java.io.Serializable {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -1920536746849481769L;
+    private sr03projet3.beans.Advertisement[] advertisements;
 
-	private sr03projet3.beans.AdvertisementList advertisements;
+    private sr03projet3.beans.AdvertisementList advertisementsList;
 
     private java.lang.Long id;
 
@@ -23,10 +20,12 @@ public class Category  implements java.io.Serializable {
     }
 
     public Category(
-           sr03projet3.beans.AdvertisementList advertisements,
+           sr03projet3.beans.Advertisement[] advertisements,
+           sr03projet3.beans.AdvertisementList advertisementsList,
            java.lang.Long id,
            java.lang.String name) {
            this.advertisements = advertisements;
+           this.advertisementsList = advertisementsList;
            this.id = id;
            this.name = name;
     }
@@ -37,7 +36,7 @@ public class Category  implements java.io.Serializable {
      * 
      * @return advertisements
      */
-    public sr03projet3.beans.AdvertisementList getAdvertisements() {
+    public sr03projet3.beans.Advertisement[] getAdvertisements() {
         return advertisements;
     }
 
@@ -47,8 +46,28 @@ public class Category  implements java.io.Serializable {
      * 
      * @param advertisements
      */
-    public void setAdvertisements(sr03projet3.beans.AdvertisementList advertisements) {
+    public void setAdvertisements(sr03projet3.beans.Advertisement[] advertisements) {
         this.advertisements = advertisements;
+    }
+
+
+    /**
+     * Gets the advertisementsList value for this Category.
+     * 
+     * @return advertisementsList
+     */
+    public sr03projet3.beans.AdvertisementList getAdvertisementsList() {
+        return advertisementsList;
+    }
+
+
+    /**
+     * Sets the advertisementsList value for this Category.
+     * 
+     * @param advertisementsList
+     */
+    public void setAdvertisementsList(sr03projet3.beans.AdvertisementList advertisementsList) {
+        this.advertisementsList = advertisementsList;
     }
 
 
@@ -105,7 +124,10 @@ public class Category  implements java.io.Serializable {
         _equals = true && 
             ((this.advertisements==null && other.getAdvertisements()==null) || 
              (this.advertisements!=null &&
-              this.advertisements.equals(other.getAdvertisements()))) &&
+              java.util.Arrays.equals(this.advertisements, other.getAdvertisements()))) &&
+            ((this.advertisementsList==null && other.getAdvertisementsList()==null) || 
+             (this.advertisementsList!=null &&
+              this.advertisementsList.equals(other.getAdvertisementsList()))) &&
             ((this.id==null && other.getId()==null) || 
              (this.id!=null &&
               this.id.equals(other.getId()))) &&
@@ -124,7 +146,18 @@ public class Category  implements java.io.Serializable {
         __hashCodeCalc = true;
         int _hashCode = 1;
         if (getAdvertisements() != null) {
-            _hashCode += getAdvertisements().hashCode();
+            for (int i=0;
+                 i<java.lang.reflect.Array.getLength(getAdvertisements());
+                 i++) {
+                java.lang.Object obj = java.lang.reflect.Array.get(getAdvertisements(), i);
+                if (obj != null &&
+                    !obj.getClass().isArray()) {
+                    _hashCode += obj.hashCode();
+                }
+            }
+        }
+        if (getAdvertisementsList() != null) {
+            _hashCode += getAdvertisementsList().hashCode();
         }
         if (getId() != null) {
             _hashCode += getId().hashCode();
@@ -145,6 +178,13 @@ public class Category  implements java.io.Serializable {
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("advertisements");
         elemField.setXmlName(new javax.xml.namespace.QName("http://beans.sr03projet3", "advertisements"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://beans.sr03projet3", "Advertisement"));
+        elemField.setNillable(true);
+        elemField.setItemQName(new javax.xml.namespace.QName("http://service.sr03projet3", "item"));
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("advertisementsList");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://beans.sr03projet3", "advertisementsList"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://beans.sr03projet3", "AdvertisementList"));
         elemField.setNillable(true);
         typeDesc.addFieldDesc(elemField);

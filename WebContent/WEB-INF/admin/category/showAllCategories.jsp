@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Gestion des catégories</title>
+<title>Gestion dde l'annuaire</title>
 <style type="text/css">
 	table {
 		border-width:1px; 
@@ -24,12 +24,12 @@
 
 </head>
 <body>
-	<h1>Gestion des catégories</h1>
+	<h1>Gestion de l'annuaire</h1>
 	<table>
 		<thead>
 			<tr>
 				<th>Nom</th>
-				<th colspan="2">Actions</th>
+				<th colspan="3">Actions</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -37,8 +37,9 @@
 				<form id="actionForm${category.getId()}" action=""><input type="hidden" name="idCategory" value="${category.getId()}"/> </form>
 				<tr>
 					<td>${category.getName()}</td>
-					<td><button form="actionForm${category.getId()}" formmethod="get" type="submit" formAction="<c:url value="/categories/edit" />">Modifier</button></td>
-					<td><button form="actionForm${category.getId()}" formmethod="post" type="submit" formAction="<c:url value="/categories/delete" />">Supprimer</button></td>
+					<td><button form="actionForm${category.getId()}" formmethod="get" type="submit" formaction="<c:url value="/categories/edit" />">Modifier</button></td>
+					<td><button form="actionForm${category.getId()}" formmethod="post" type="submit" formaction="<c:url value="/categories/delete" />">Supprimer</button></td>
+					<td><button form="actionForm${category.getId()}" formmethod="get" type="submit" formAction="<c:url value="/advertisements" />">Voir les annonces</button></td>
 				</tr>
 			</c:forEach>
 		</tbody>

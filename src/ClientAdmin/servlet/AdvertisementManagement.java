@@ -13,14 +13,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import ClientAdmin.controllers.AdvertisementController;
+import ClientAdmin.controllers.CategoryController;
 import sr03projet3.beans.*;
 import sr03projet3.service.*;
 /**
  * Servlet implementation class AdvertisementManagement
  */
-public class AdvertisementManagement extends ServletBase {
+public class AdvertisementManagement extends ServletBaseAdmin {
 	private static final long serialVersionUID = 1L;
-	public static final String BASE_PATH = "categories";
+	public static final String BASE_PATH = "advertisements";
 	
 	
 	// View locations declarations
@@ -80,12 +81,17 @@ public class AdvertisementManagement extends ServletBase {
 	protected void defaultGETAction(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		DirectoryProxy proxy = new DirectoryProxy();
+		Long id = Long.parseLong(request.getParameter(CategoryController.ID_FIELD));
 		try {
-			ArrayList<Advertisement> list = controller.search(request);
+			Category category = proxy.getCategory(id);
+			request.setAttribute(CATEGORY_ATTRIBUTE, category);	
+			System.out.println(category.getName());
+			Advertisement[] ads = category.getAdvertisements();
+//			ArrayList<Advertisement> list = controller.search(request);
 			ArrayList<Category> catList = new ArrayList<>(Arrays.asList(proxy.getCategories()));
-
+			
 			request.setAttribute(CATEGORY_LIST_ATTRIBUTE, catList);
-			request.setAttribute(ADS_LIST_ATTRIBUTE, list);
+			request.setAttribute(ADS_LIST_ATTRIBUTE, ads);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -96,23 +102,25 @@ public class AdvertisementManagement extends ServletBase {
 	protected void editGETAction(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		DirectoryProxy proxy = new DirectoryProxy();
-		Long id = Long.parseLong(request.getParameter(AdvertisementController.ID_FIELD));
+		Long idAd = Long.parseLong(request.getParameter(AdvertisementController.ID_FIELD));
+		Long idCat = Long.parseLong(request.getParameter(CategoryController.ID_FIELD));
 		try {
-			Advertisement advertisement = proxy.getAdvertisement(id);
-			request.setAttribute(CATEGORY_ATTRIBUTE, advertisement);
+			Advertisement advertisement = proxy.getAdvertisement(idAd);
+			Category category= proxy.getCategory(idCat);
+			request.setAttribute(CATEGORY_ATTRIBUTE, category);
+			request.setAttribute(AD_ATTRIBUTE, advertisement);
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		request.getRequestDispatcher(this.view).forward(request, response);
 	}
 
-	@Override
-	protected void deleteGETAction(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		
-	}
+//	@Override
+//	protected void deleteGETAction(HttpServletRequest request,
+//			HttpServletResponse response) throws ServletException, IOException {
+//		// TODO Auto-generated method stub
+//		
+//	}
 
 	@Override
 	protected void defaultPOSTAction(HttpServletRequest request,
@@ -133,11 +141,12 @@ public class AdvertisementManagement extends ServletBase {
 			HttpServletResponse response) throws ServletException, IOException {
 		Advertisement advertisement = controller.edit(request);
 		if(controller.getResult()){
-			response.sendRedirect(request.getContextPath()+"/"+BASE_PATH);
+			
+			response.sendRedirect(request.getContextPath()+"/"+BASE_PATH+"/?"+CategoryController.ID_FIELD+"=");
 		}
 		else{
 			request.setAttribute("message", controller.getMessage());
-			request.setAttribute(CATEGORY_ATTRIBUTE, advertisement);
+			request.setAttribute(AD_ATTRIBUTE, advertisement);
 			request.getRequestDispatcher(this.view).forward(request, response);
 		}
 	}

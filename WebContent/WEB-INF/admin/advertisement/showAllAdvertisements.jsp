@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Gestion des catégories</title>
+<title>Gestion de l'annuaire</title>
 <style type="text/css">
 	table {
 		border-width:1px; 
@@ -25,19 +25,7 @@
 </head>
 <body>
 	<h1>Gestion des annonces</h1>
-	
-	<form action="" id='filtre'>
-		<label for='categoryIdAdvertisement'>Catégorie</label>
-		<select name='categoryIdAdvertisement'>
-			<option>-
-			<c:forEach items="${categories}" var="category">
-				<option value='${category.getId()}'>${category.getName()}			
-			</c:forEach>
-		</select>
-		
-		<input type='submit' value='Filtrer'/>
-	</form>
-	
+	<a href="<c:url value='/categories' /> ">Retour</a>
 	<table>
 		<thead>
 			<tr>
@@ -49,8 +37,9 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${advertisements}" var="advertisement">
+			<c:forEach items="${category.getAdvertisements()}" var="advertisement">
 				<form id="actionForm${advertisement.getId()}" action=""><input type="hidden" name="idAdvertisement" value="${advertisement.getId()}"/> </form>
+				<form id="actionForm${advertisement.getId()}" action=""><input type="hidden" name="idCategory" value="${category.getId()}"/> </form>
 				<tr>
 					<td>${advertisement.getName()}</td>			
 					<td>${advertisement.getPhone()}</td>			

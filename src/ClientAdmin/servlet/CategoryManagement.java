@@ -18,7 +18,7 @@ import sr03projet3.service.*;
 /**
  * Servlet implementation class CategoryManagement
  */
-public class CategoryManagement extends ServletBase {
+public class CategoryManagement extends ServletBaseAdmin {
 	private static final long serialVersionUID = 1L;
 	public static final String BASE_PATH = "categories";
 	
@@ -94,11 +94,8 @@ public class CategoryManagement extends ServletBase {
 		Long id = Long.parseLong(request.getParameter(CategoryController.ID_FIELD));
 		try {
 			Category category = proxy.getCategory(id);
-			System.out.println(category.getAdvertisements());
-//			for (Advertisement ad : iterable) {
-//				
-//			}
 			request.setAttribute(CATEGORY_ATTRIBUTE, category);
+			
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -106,12 +103,12 @@ public class CategoryManagement extends ServletBase {
 		request.getRequestDispatcher(this.view).forward(request, response);
 	}
 
-	@Override
-	protected void deleteGETAction(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		
-	}
+//	@Override
+//	protected void deleteGETAction(HttpServletRequest request,
+//			HttpServletResponse response) throws ServletException, IOException {
+//		// TODO Auto-generated method stub
+//		
+//	}
 
 	@Override
 	protected void defaultPOSTAction(HttpServletRequest request,
