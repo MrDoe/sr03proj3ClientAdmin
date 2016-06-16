@@ -10,6 +10,8 @@ package sr03projet3.beans;
 public class Advertisement  implements java.io.Serializable {
     private sr03projet3.beans.Address address;
 
+    private sr03projet3.beans.Category category;
+
     private java.lang.Long id;
 
     private java.lang.String name;
@@ -21,10 +23,12 @@ public class Advertisement  implements java.io.Serializable {
 
     public Advertisement(
            sr03projet3.beans.Address address,
+           sr03projet3.beans.Category category,
            java.lang.Long id,
            java.lang.String name,
            java.lang.String phone) {
            this.address = address;
+           this.category = category;
            this.id = id;
            this.name = name;
            this.phone = phone;
@@ -48,6 +52,26 @@ public class Advertisement  implements java.io.Serializable {
      */
     public void setAddress(sr03projet3.beans.Address address) {
         this.address = address;
+    }
+
+
+    /**
+     * Gets the category value for this Advertisement.
+     * 
+     * @return category
+     */
+    public sr03projet3.beans.Category getCategory() {
+        return category;
+    }
+
+
+    /**
+     * Sets the category value for this Advertisement.
+     * 
+     * @param category
+     */
+    public void setCategory(sr03projet3.beans.Category category) {
+        this.category = category;
     }
 
 
@@ -125,6 +149,9 @@ public class Advertisement  implements java.io.Serializable {
             ((this.address==null && other.getAddress()==null) || 
              (this.address!=null &&
               this.address.equals(other.getAddress()))) &&
+            ((this.category==null && other.getCategory()==null) || 
+             (this.category!=null &&
+              this.category.equals(other.getCategory()))) &&
             ((this.id==null && other.getId()==null) || 
              (this.id!=null &&
               this.id.equals(other.getId()))) &&
@@ -147,6 +174,9 @@ public class Advertisement  implements java.io.Serializable {
         int _hashCode = 1;
         if (getAddress() != null) {
             _hashCode += getAddress().hashCode();
+        }
+        if (getCategory() != null) {
+            _hashCode += getCategory().hashCode();
         }
         if (getId() != null) {
             _hashCode += getId().hashCode();
@@ -171,6 +201,12 @@ public class Advertisement  implements java.io.Serializable {
         elemField.setFieldName("address");
         elemField.setXmlName(new javax.xml.namespace.QName("http://beans.sr03projet3", "address"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://beans.sr03projet3", "Address"));
+        elemField.setNillable(true);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("category");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://beans.sr03projet3", "category"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://beans.sr03projet3", "Category"));
         elemField.setNillable(true);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();

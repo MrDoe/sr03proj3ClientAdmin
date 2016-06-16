@@ -26,24 +26,35 @@
 <body>
 	<h1>Gestion des annonces</h1>
 	<a href="<c:url value='/categories' /> ">Retour</a>
+	<form action="" id='filtre'>
+		<label for='idCategory'>Catégorie</label>
+		<select name='idCategory'>
+			<option>-
+			<c:forEach items="${categories}" var="category">
+				<option value='${category.getId()}' <c:if test="${idCategory==category.getId()}">selected="selected"</c:if>>${category.getName()}			
+			</c:forEach>
+		</select>
+		<input type='submit' value='Filtrer'/>
+	</form>
+	
 	<table>
 		<thead>
 			<tr>
 				<th>Nom</th>
 				<th>Téléphone</th>
-				<!-- <th>Catégorie</th> -->
+				<th>Catégorie</th>
 				<th>Adresse</th>
 				<th colspan="2">Actions</th>
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${category.getAdvertisements()}" var="advertisement">
+			<c:forEach items="${advertisements}" var="advertisement">
 				<form id="actionForm${advertisement.getId()}" action=""><input type="hidden" name="idAdvertisement" value="${advertisement.getId()}"/> </form>
-				<form id="actionForm${advertisement.getId()}" action=""><input type="hidden" name="idCategory" value="${category.getId()}"/> </form>
+				<form id="actionForm${advertisement.getId()}" action=""><input type="hidden" name="idCategory" value="${advertisement.getCategory().getId()}"/> </form>
 				<tr>
 					<td>${advertisement.getName()}</td>			
 					<td>${advertisement.getPhone()}</td>			
-					<%-- <td>${advertisement.getPhone()}</td> --%>
+					<td>${advertisement.getCategory().getName()}</td>
 					<td>${advertisement.getAddress().getStreet()} 
 						${advertisement.getAddress().getCity()} 
 						${advertisement.getAddress().getPostalCode()}

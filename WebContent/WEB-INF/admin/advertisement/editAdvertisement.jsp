@@ -28,11 +28,26 @@
 	<h2>Modification</h2>
 	<p>${message}</p>
 	<form action="" method="POST">
-		<input type="hidden" name="idCategory" value="${category.getId()}"/>
-		
-		<label for="nameCategory">Nom : </label>
-		<input type="text" name="nameCategory" value="${category.getName()}" />
-		<input type="submit" value="Valider" />
+		<label for="nameAdvertisement">Nom : </label>
+		<input type="text" name="nameAdvertisement" value="${advertisement.getName()}"/>
+		<label for="phoneAdvertisement">Téléphone : </label>
+		<input type="tel" name="phoneAdvertisement" value="${advertisement.getPhone()}"/>
+		<label for="idCategory">Catégorie</label>
+		<select name="idCategory">
+		<c:forEach items="${categories}" var="category">
+			<option value="${category.getId()}" <c:if test="${advertisement.getCategory().getId()==category.getId()}">selected="selected"</c:if>>${category.getName()}</option>
+		</c:forEach>
+		</select>
+		<fieldset>
+			<legend>Adresse</legend>
+				<label for="streetAdvertisement">Rue</label>
+				<input type="text" name="streetAdvertisement" value="${advertisement.getAddress().getStreet()}"/>
+				<label for="cityAdvertisement">Ville</label>
+				<input type="text" name="cityAdvertisement" value="${advertisement.getAddress().getCity()}"/>
+				<label for="postlCodeAdvertisement">Code Postal</label>
+				<input type="text" name="postalCodeAdvertisement" value="${advertisement.getAddress().getPostalCode()}"/>
+		</fieldset>
+		<input type="submit" value="Valider" />		
 	</form>
 </body>
 </html>

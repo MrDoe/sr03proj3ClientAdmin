@@ -44,34 +44,16 @@ public class DirectoryProxy implements sr03projet3.service.Directory {
     return directory;
   }
   
-  public sr03projet3.beans.Category getCategory(long id) throws java.rmi.RemoteException{
-    if (directory == null)
-      _initDirectoryProxy();
-    return directory.getCategory(id);
-  }
-  
   public sr03projet3.beans.Category[] getCategories() throws java.rmi.RemoteException{
     if (directory == null)
       _initDirectoryProxy();
     return directory.getCategories();
   }
   
-  public void removeAdvertisement(long id) throws java.rmi.RemoteException{
+  public sr03projet3.beans.Category getCategory(long id) throws java.rmi.RemoteException{
     if (directory == null)
       _initDirectoryProxy();
-    directory.removeAdvertisement(id);
-  }
-  
-  public sr03projet3.beans.Advertisement[] searchAdvertisements(long categoryId, sr03projet3.beans.Advertisement ad) throws java.rmi.RemoteException{
-    if (directory == null)
-      _initDirectoryProxy();
-    return directory.searchAdvertisements(categoryId, ad);
-  }
-  
-  public void updateAdvertisement(sr03projet3.beans.Advertisement ad) throws java.rmi.RemoteException{
-    if (directory == null)
-      _initDirectoryProxy();
-    directory.updateAdvertisement(ad);
+    return directory.getCategory(id);
   }
   
   public void updateCategory(sr03projet3.beans.Category c) throws java.rmi.RemoteException{
@@ -80,28 +62,46 @@ public class DirectoryProxy implements sr03projet3.service.Directory {
     directory.updateCategory(c);
   }
   
-  public void removeCategory(long id) throws java.rmi.RemoteException{
-    if (directory == null)
-      _initDirectoryProxy();
-    directory.removeCategory(id);
-  }
-  
-  public sr03projet3.beans.Advertisement addAdvertisement(sr03projet3.beans.Advertisement ad, long categoryId) throws java.rmi.RemoteException{
-    if (directory == null)
-      _initDirectoryProxy();
-    return directory.addAdvertisement(ad, categoryId);
-  }
-  
   public sr03projet3.beans.Advertisement getAdvertisement(long id) throws java.rmi.RemoteException{
     if (directory == null)
       _initDirectoryProxy();
     return directory.getAdvertisement(id);
   }
   
+  public void removeCategory(long id) throws java.rmi.RemoteException{
+    if (directory == null)
+      _initDirectoryProxy();
+    directory.removeCategory(id);
+  }
+  
   public sr03projet3.beans.Category addCategory(sr03projet3.beans.Category c) throws java.rmi.RemoteException{
     if (directory == null)
       _initDirectoryProxy();
     return directory.addCategory(c);
+  }
+  
+  public sr03projet3.beans.Advertisement[] searchAdvertisements(sr03projet3.beans.Advertisement ad) throws java.rmi.RemoteException{
+    if (directory == null)
+      _initDirectoryProxy();
+    return directory.searchAdvertisements(ad);
+  }
+  
+  public void removeAdvertisement(long id) throws java.rmi.RemoteException{
+    if (directory == null)
+      _initDirectoryProxy();
+    directory.removeAdvertisement(id);
+  }
+  
+  public void updateAdvertisement(sr03projet3.beans.Advertisement ad) throws java.rmi.RemoteException{
+    if (directory == null)
+      _initDirectoryProxy();
+    directory.updateAdvertisement(ad);
+  }
+  
+  public sr03projet3.beans.Advertisement addAdvertisement(sr03projet3.beans.Advertisement ad) throws java.rmi.RemoteException{
+    if (directory == null)
+      _initDirectoryProxy();
+    return directory.addAdvertisement(ad);
   }
   
   

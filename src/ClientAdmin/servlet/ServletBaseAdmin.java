@@ -94,4 +94,8 @@ public abstract class ServletBaseAdmin extends HttpServlet {
 		return this.action;
 	}
 	
+	protected String urlParam(String name, Object value){
+		return name+"="+value;
+	}
+	
 }

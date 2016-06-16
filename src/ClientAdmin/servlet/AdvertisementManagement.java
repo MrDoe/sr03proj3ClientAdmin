@@ -80,15 +80,9 @@ public class AdvertisementManagement extends ServletBaseAdmin {
 	@Override
 	protected void defaultGETAction(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		DirectoryProxy proxy = new DirectoryProxy();
-		Long id = Long.parseLong(request.getParameter(CategoryController.ID_FIELD));
 		try {
-			Category category = proxy.getCategory(id);
-			request.setAttribute(CATEGORY_ATTRIBUTE, category);	
-			System.out.println(category.getName());
-			Advertisement[] ads = category.getAdvertisements();
-//			ArrayList<Advertisement> list = controller.search(request);
-			ArrayList<Category> catList = new ArrayList<>(Arrays.asList(proxy.getCategories()));
+			ArrayList<Advertisement> ads = controller.search(request);
+			ArrayList<Category> catList = new ArrayList<>(Arrays.asList(directoryService.getCategories()));
 			
 			request.setAttribute(CATEGORY_LIST_ATTRIBUTE, catList);
 			request.setAttribute(ADS_LIST_ATTRIBUTE, ads);
@@ -101,13 +95,13 @@ public class AdvertisementManagement extends ServletBaseAdmin {
 	@Override
 	protected void editGETAction(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		DirectoryProxy proxy = new DirectoryProxy();
 		Long idAd = Long.parseLong(request.getParameter(AdvertisementController.ID_FIELD));
-		Long idCat = Long.parseLong(request.getParameter(CategoryController.ID_FIELD));
+		
 		try {
-			Advertisement advertisement = proxy.getAdvertisement(idAd);
-			Category category= proxy.getCategory(idCat);
-			request.setAttribute(CATEGORY_ATTRIBUTE, category);
+			Advertisement advertisement = directoryService.getAdvertisement(idAd);
+			ArrayList<Category> catList = new ArrayList<>(Arrays.asList(directoryService.getCategories()));		
+			
+			request.setAttribute(CATEGORY_LIST_ATTRIBUTE, catList);
 			request.setAttribute(AD_ATTRIBUTE, advertisement);
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -141,12 +135,12 @@ public class AdvertisementManagement extends ServletBaseAdmin {
 			HttpServletResponse response) throws ServletException, IOException {
 		Advertisement advertisement = controller.edit(request);
 		if(controller.getResult()){
-			
-			response.sendRedirect(request.getContextPath()+"/"+BASE_PATH+"/?"+CategoryController.ID_FIELD+"=");
+			response.sendRedirect(request.getContextPath()+"/"+BASE_PATH);
 		}
 		else{
 			request.setAttribute("message", controller.getMessage());
 			request.setAttribute(AD_ATTRIBUTE, advertisement);
+			request.setAttribute(CATEGORY_LIST_ATTRIBUTE, directoryService.getCategories());
 			request.getRequestDispatcher(this.view).forward(request, response);
 		}
 	}

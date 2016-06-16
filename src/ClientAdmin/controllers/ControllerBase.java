@@ -9,7 +9,12 @@ public class ControllerBase {
 	public String getMessage(){
 		return message;
 	}
-	
+	public void addMessage(String msg){
+		if(!this.message.equals("")){
+			this.message+="<br/>";
+		}
+		this.message += msg;
+	}
 	protected Boolean result;
     public Boolean getResult() {
         return result;
@@ -20,7 +25,7 @@ public class ControllerBase {
     }
     
     public ControllerBase(){
-    	message = new String();
+    	message = "";
     	result = true;
     	
     }
