@@ -36,9 +36,8 @@ public class AdvertisementManagement extends ServletBaseAdmin {
     public static final String AD_ATTRIBUTE = "advertisement";
     
     
-    
+    // Server-side objects
     private Directory directoryService;
-    private AdvertisementController controller;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -52,9 +51,10 @@ public class AdvertisementManagement extends ServletBaseAdmin {
 	 */
 	public void init() throws ServletException {
 		super.init();
+		// Instanciate the proxy to use Directory service 
 		directoryService = new DirectoryProxy();
-		controller = new AdvertisementController(directoryService);
 		
+		// Set the view to use depending on the action requested
 		switch (action) {
 		case DEFAULT_ACTION:
 		case DELETE_ACTION:
@@ -67,23 +67,40 @@ public class AdvertisementManagement extends ServletBaseAdmin {
 			this.view = ADD_VIEW;
 			break;
 		default:
+			// Manage an unexcepted action given through url
 			throw new ServletException("Invalid action '"+this.getAction()+"' given, request ignored.");
 		}
 	}
 
-	@Override
+	/**
+	 * @see ServletBase#addGETAction(HttpServletRequest request,HttpServletResponse response)
+	 */
 	protected void addGETAction(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		try {
+			// Retrive all categories to show them in the edit form
+			ArrayList<Category> catList = new ArrayList<>(Arrays.asList(directoryService.getCategories()));		
+			request.setAttribute(CATEGORY_LIST_ATTRIBUTE, catList);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 		request.getRequestDispatcher(this.view).forward(request, response);
 	}
 
-	@Override
+	/**
+	 * @see ServletBase#defaultGETAction(HttpServletRequest request,HttpServletResponse response)
+	 */
 	protected void defaultGETAction(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		AdvertisementController controller = new AdvertisementController(directoryService);
 		try {
-			ArrayList<Advertisement> ads = controller.search(request);
+			// Retrive all categories to show them in the edit form
 			ArrayList<Category> catList = new ArrayList<>(Arrays.asList(directoryService.getCategories()));
 			
+			// Filter advertisements
+			ArrayList<Advertisement> ads = controller.search(request);
+			
+			// Pass the results in the request before dispatching
 			request.setAttribute(CATEGORY_LIST_ATTRIBUTE, catList);
 			request.setAttribute(ADS_LIST_ATTRIBUTE, ads);
 		} catch (RemoteException e) {
@@ -92,11 +109,13 @@ public class AdvertisementManagement extends ServletBaseAdmin {
 		request.getRequestDispatcher(this.view).forward(request, response);
 	}
 
-	@Override
+	/**
+	 * @see ServletBase#editGETAction(HttpServletRequest request,HttpServletResponse response)
+	 */
 	protected void editGETAction(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		// Get the advertisement by its id to fill the edit form 
 		Long idAd = Long.parseLong(request.getParameter(AdvertisementController.ID_FIELD));
-		
 		try {
 			Advertisement advertisement = directoryService.getAdvertisement(idAd);
 			ArrayList<Category> catList = new ArrayList<>(Arrays.asList(directoryService.getCategories()));		
@@ -109,35 +128,29 @@ public class AdvertisementManagement extends ServletBaseAdmin {
 		request.getRequestDispatcher(this.view).forward(request, response);
 	}
 
-//	@Override
-//	protected void deleteGETAction(HttpServletRequest request,
-//			HttpServletResponse response) throws ServletException, IOException {
-//		// TODO Auto-generated method stub
-//		
-//	}
-
-	@Override
+	/**
+	 * @see ServletBase#defaultPOSTAction(HttpServletRequest request,HttpServletResponse response)
+	 */
 	protected void defaultPOSTAction(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	protected void addPOSTAction(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		controller.add(request);
+		// No action to process for the default advertisement list with POST method
 		response.sendRedirect(request.getContextPath()+"/"+BASE_PATH);
 	}
 
-	@Override
-	protected void editPOSTAction(HttpServletRequest request,
+	/**
+	 * @see ServletBase#addPOSTAction(HttpServletRequest request,HttpServletResponse response)
+	 */
+	protected void addPOSTAction(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		Advertisement advertisement = controller.edit(request);
+		AdvertisementController controller = new AdvertisementController(directoryService);
+		
+		// Process the form with the controller
+		Advertisement advertisement = controller.add(request);
+		// If creation has succeeded, redirect to the main ads page
 		if(controller.getResult()){
 			response.sendRedirect(request.getContextPath()+"/"+BASE_PATH);
 		}
-		else{
+		else{ // If creation has failed, get messages from the controller, retore the form context and shw the form again  
 			request.setAttribute("message", controller.getMessage());
 			request.setAttribute(AD_ATTRIBUTE, advertisement);
 			request.setAttribute(CATEGORY_LIST_ATTRIBUTE, directoryService.getCategories());
@@ -145,17 +158,43 @@ public class AdvertisementManagement extends ServletBaseAdmin {
 		}
 	}
 
-	@Override
-	protected void deletePOSTAction(HttpServletRequest request,
+	/**
+	 * @see ServletBase#editPOSTAction(HttpServletRequest request,HttpServletResponse response)
+	 */
+	protected void editPOSTAction(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		controller.delete(request);
-		if(controller.getResult())
+		AdvertisementController controller = new AdvertisementController(directoryService);
+		
+		// Process the form with the controller
+		Advertisement advertisement = controller.edit(request);
+		// If edition has succeeded, redirect to the main ads page
+		if(controller.getResult()){
 			response.sendRedirect(request.getContextPath()+"/"+BASE_PATH);
-		else {
+		}
+		else{
+			// If edition has failed, get messages from the controller, retore the form context and shw the form again
 			request.setAttribute("message", controller.getMessage());
+			request.setAttribute(AD_ATTRIBUTE, advertisement);
+			request.setAttribute(CATEGORY_LIST_ATTRIBUTE, directoryService.getCategories());
 			request.getRequestDispatcher(this.view).forward(request, response);
 		}
 	}
 
-
+	/**
+	 * @see ServletBase#deletePOSTAction(HttpServletRequest request,HttpServletResponse response)
+	 */
+	protected void deletePOSTAction(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		AdvertisementController controller = new AdvertisementController(directoryService);
+		// Process deletion with the controller
+		controller.delete(request);
+		// If deletion has succeded, redirect to the main page
+		if(controller.getResult())
+			response.sendRedirect(request.getContextPath()+"/"+BASE_PATH);
+		else {
+			// Else show errors in the correct view
+			request.setAttribute("message", controller.getMessage());
+			request.getRequestDispatcher(this.view).forward(request, response);
+		}
+	}
 }

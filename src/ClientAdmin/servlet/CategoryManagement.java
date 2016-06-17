@@ -66,14 +66,18 @@ public class CategoryManagement extends ServletBaseAdmin {
 		}
 	}
 
-	@Override
+	/**
+	 * @see ServletBase#addGETAction(HttpServletRequest request,HttpServletResponse response)
+	 */
 	protected void addGETAction(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		request.getRequestDispatcher(this.view).forward(request, response);
 	}
 
-	@Override
+	/**
+	 * @see ServletBase#defaultGETAction(HttpServletRequest request,HttpServletResponse response)
+	 */
 	protected void defaultGETAction(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		DirectoryProxy proxy = new DirectoryProxy();
@@ -87,7 +91,9 @@ public class CategoryManagement extends ServletBaseAdmin {
 		request.getRequestDispatcher(this.view).forward(request, response);
 	}
 
-	@Override
+	/**
+	 * @see ServletBase#editGETAction(HttpServletRequest request,HttpServletResponse response)
+	 */
 	protected void editGETAction(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		DirectoryProxy proxy = new DirectoryProxy();
@@ -97,34 +103,33 @@ public class CategoryManagement extends ServletBaseAdmin {
 			request.setAttribute(CATEGORY_ATTRIBUTE, category);
 			
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		request.getRequestDispatcher(this.view).forward(request, response);
 	}
 
-//	@Override
-//	protected void deleteGETAction(HttpServletRequest request,
-//			HttpServletResponse response) throws ServletException, IOException {
-//		// TODO Auto-generated method stub
-//		
-//	}
 
-	@Override
+	/**
+	 * @see ServletBase#defaultPOSTAction(HttpServletRequest request,HttpServletResponse response)
+	 */
 	protected void defaultPOSTAction(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
+	/**
+	 * @see ServletBase#addPOSTAction(HttpServletRequest request,HttpServletResponse response)
+	 */
 	protected void addPOSTAction(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		controller.add(request);
 		response.sendRedirect(request.getContextPath()+"/"+BASE_PATH);
 	}
 
-	@Override
+	/**
+	 * @see ServletBase#editPOSTAction(HttpServletRequest request,HttpServletResponse response)
+	 */
 	protected void editPOSTAction(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		Category category = controller.edit(request);
@@ -138,7 +143,9 @@ public class CategoryManagement extends ServletBaseAdmin {
 		}
 	}
 
-	@Override
+	/**
+	 * @see ServletBase#deletePOSTAction(HttpServletRequest request,HttpServletResponse response)
+	 */
 	protected void deletePOSTAction(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		controller.delete(request);
