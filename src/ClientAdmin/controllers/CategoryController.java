@@ -43,11 +43,14 @@ public class CategoryController extends ControllerBase {
 			result = false;
 		} catch (ControllerException e) {
 			result = false;
+		}catch (RemoteException e) {
+			addMessage(e.getMessage());
+			result = false;
 		} 
 		return category;
 	}
 
-	public Category add(HttpServletRequest request) throws RemoteException{
+	public Category add(HttpServletRequest request){
 		String name = request.getParameter(NAME_FIELD);
 		Category category = new Category();
 		try {
@@ -58,6 +61,9 @@ public class CategoryController extends ControllerBase {
 			this.addMessage("Le formulaire est mal formé.");
 			result = false;
 		}catch (ControllerException e) {
+			result = false;
+		}catch (RemoteException e) {
+			addMessage(e.getMessage());
 			result = false;
 		} 
 		return category;
@@ -94,7 +100,7 @@ public class CategoryController extends ControllerBase {
 	// *********************** Fields validations methods ************************************* 
 	
 	/**
-	 * Check name validity. Name must be set and filled 
+	 * Check name validity. Name must be set and filled and not already present in the directory
 	 * @param name
 	 * @return boolean
 	 */

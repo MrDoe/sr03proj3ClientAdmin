@@ -24,12 +24,17 @@
 
 </head>
 <body>
+	<a href='<c:url value="/"/>'>Retour</a>
 	<h1>Gestion de l'annuaire</h1>
+	<h2>Gestion des catégories</h2>
+	<form method="get" action="<c:url value="/categories/add" /> ">
+		<input type="submit" value="+ Ajouter +" />
+	</form>	
 	<table>
 		<thead>
 			<tr>
 				<th>Nom</th>
-				<th colspan="3">Actions</th>
+				<th colspan="2">Actions</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -39,14 +44,9 @@
 					<td>${category.getName()}</td>
 					<td><button form="actionForm${category.getId()}" formmethod="get" type="submit" formaction="<c:url value="/categories/edit" />">Modifier</button></td>
 					<td><button form="actionForm${category.getId()}" formmethod="post" type="submit" formaction="<c:url value="/categories/delete" />">Supprimer</button></td>
-					<td><button form="actionForm${category.getId()}" formmethod="get" type="submit" formAction="<c:url value="/advertisements" />">Voir les annonces</button></td>
 				</tr>
 			</c:forEach>
 		</tbody>
-	</table>
-	<form method="get" action="<c:url value="/categories/add" /> ">
-		<input type="submit" value="+ Ajouter +" />
-	</form>
-	
+	</table>	
 </body>
 </html>

@@ -24,6 +24,7 @@
 
 </head>
 <body>
+	<a href="<c:url value='/advertisements' /> ">Retour</a>
 	<h1>Gestion des catégories</h1>
 	<h2>Modification</h2>
 	<p>${message}</p>

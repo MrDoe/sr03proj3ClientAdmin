@@ -24,7 +24,9 @@
 
 </head>
 <body>
-	<h1>Modifier une annonce</h1>
+	<a href="<c:url value='/advertisements' /> ">Retour</a>
+	<h1>Gestion de l'annuaire</h1>
+	<h2>Ajouter une annonce</h2>
 	<p>${message}</p>
 	<form action="" method="POST">
 		<label for="nameAdvertisement">Nom : </label>

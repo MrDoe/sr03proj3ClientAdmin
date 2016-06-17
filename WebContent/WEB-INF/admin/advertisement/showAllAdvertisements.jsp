@@ -24,8 +24,9 @@
 
 </head>
 <body>
-	<h1>Gestion des annonces</h1>
-	<a href="<c:url value='/categories' /> ">Retour</a>
+	<a href="<c:url value='/' /> ">Retour</a>
+	<h1>Gestion de l'annuaire</h1>
+	<h2>Gestion des annonces</h2>
 	<form action="" id='filtre'>
 		<label for='idCategory'>Catégorie</label>
 		<select name='idCategory'>
@@ -36,7 +37,9 @@
 		</select>
 		<input type='submit' value='Filtrer'/>
 	</form>
-	
+	<form method="get" action="<c:url value="/advertisements/add" /> ">
+		<input type="submit" value="+ Ajouter +" />
+	</form>	
 	<table>
 		<thead>
 			<tr>
@@ -64,10 +67,6 @@
 				</tr>	
 			</c:forEach>
 		</tbody>
-	</table>
-	<form method="get" action="<c:url value="/advertisements/add" /> ">
-		<input type="submit" value="+ Ajouter +" />
-	</form>
-	
+	</table>	
 </body>
 </html>

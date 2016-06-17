@@ -42,38 +42,9 @@ public class AdvertisementController extends ControllerBase {
 	 * @throws RemoteException if the service use has troubles
 	 */
 	public ArrayList<Advertisement> search(HttpServletRequest request) throws RemoteException{
-		// Get the fields from JSP page
-		String name = request.getParameter(NAME_FIELD);
-		String phone = request.getParameter(PHONE_FIELD);
+		// Get the category from JSP page
 		String category = request.getParameter(CATEGORY_FIELD);
-		String street = request.getParameter(STREET_FIELD);
-		String city = request.getParameter(CITY_FIELD);
-		String postalCode = request.getParameter(POSTALCODE_FIELD);
 		Advertisement sample = new Advertisement();
-		Address address = new Address();
-		
-		// Set up a sample advertisement with given fields and backup values into the request for the next display 
-		if(name != null) {
-			sample.setName(name);
-			request.setAttribute(NAME_FIELD, name);
-		}
-		if(phone != null) {
-			sample.setPhone(phone);
-			request.setAttribute(PHONE_FIELD, phone);
-		}
-		if(street != null) {
-			address.setStreet(street);
-			request.setAttribute(STREET_FIELD, street);
-		}
-		if(city != null) {
-			address.setCity(city);
-			request.setAttribute(CITY_FIELD, city);
-		}
-		if(postalCode != null) {
-			address.setPostalCode(postalCode);
-			request.setAttribute(POSTALCODE_FIELD, postalCode);
-		}
-		sample.setAddress(address);
 		
 		// '-' character represents a null value 
 		if(category != null && !category.equals("-")){

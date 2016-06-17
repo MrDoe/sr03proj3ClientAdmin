@@ -123,8 +123,16 @@ public class CategoryManagement extends ServletBaseAdmin {
 	 */
 	protected void addPOSTAction(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		controller.add(request);
-		response.sendRedirect(request.getContextPath()+"/"+BASE_PATH);
+		CategoryController controller = new CategoryController(directoryService);
+		Category category = controller.add(request);
+		if(controller.getResult()){
+			response.sendRedirect(request.getContextPath()+"/"+BASE_PATH);
+		}
+		else{
+			request.setAttribute("message", controller.getMessage());
+			request.setAttribute(CATEGORY_ATTRIBUTE, category);
+			request.getRequestDispatcher(this.view).forward(request, response);
+		}
 	}
 
 	/**
@@ -132,6 +140,7 @@ public class CategoryManagement extends ServletBaseAdmin {
 	 */
 	protected void editPOSTAction(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		CategoryController controller = new CategoryController(directoryService);
 		Category category = controller.edit(request);
 		if(controller.getResult()){
 			response.sendRedirect(request.getContextPath()+"/"+BASE_PATH);
@@ -148,6 +157,7 @@ public class CategoryManagement extends ServletBaseAdmin {
 	 */
 	protected void deletePOSTAction(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		CategoryController controller = new CategoryController(directoryService);
 		controller.delete(request);
 		if(controller.getResult())
 			response.sendRedirect(request.getContextPath()+"/"+BASE_PATH);
